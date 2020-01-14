@@ -23,7 +23,6 @@ export class PieGraphComponent implements OnInit {
   @Input() pieGraphData: PieGraphData;
 
   constructor(
-    private chartJS: Chart
   ) { }
 
   ngOnInit() {

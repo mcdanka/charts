@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
 
 export interface BarGraphData {
@@ -16,22 +16,25 @@ export interface BarGraphData {
   templateUrl: './bar-graph.component.html',
   styleUrls: ['./bar-graph.component.scss'],
 })
-export class BarGraphComponent implements OnInit {
+export class BarGraphComponent implements OnChanges {
 
-  element: any = document.getElementById('myBarChart');
+  element: any;
   ctx;
   myBarChart;
-
 
   @Input() barGraphData: BarGraphData;
 
   constructor(
-    private chartJS: Chart
-  ) { }
-
-  ngOnInit() {
+  ) {
+    this.element = document.getElementById('myBarChart');
     this.ctx = this.element.getContext('2d');
     this.createChart();
+  }
+
+  ngOnChanges() {
+    if (this.barGraphData) {
+
+    }
   }
 
   createChart() {

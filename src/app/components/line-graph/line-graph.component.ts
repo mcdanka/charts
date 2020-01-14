@@ -25,7 +25,6 @@ export class LineGraphComponent implements OnInit {
   @Input() lineGraphData: LineGraphData;
 
   constructor(
-    private chartJS: Chart
   ) { }
 
   ngOnInit() {
