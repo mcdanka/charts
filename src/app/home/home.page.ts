@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BarGraphData } from '../components/bar-graph/bar-graph.component';
+import { GraphData } from '../components/graph/graph.component';
 import { GraphDataService } from '../services/graph-data/graph-data.service';
-import { LineGraphData } from '../components/line-graph/line-graph.component';
 
 @Component({
   selector: 'app-home',
@@ -10,25 +9,20 @@ import { LineGraphData } from '../components/line-graph/line-graph.component';
 })
 export class HomePage implements OnInit {
 
-  barGraphData = {} as BarGraphData;
-  lineGraphData = {} as LineGraphData;
+  GraphData = {} as GraphData;
 
   constructor(
     private graphService: GraphDataService
   ) {}
 
   ngOnInit() {
-    this.getBarGraphData();
-    this.getLineGraphData();
+    this.getGraphData();
     console.log(this);
   }
 
-  async getBarGraphData() {
-    this.barGraphData = await this.graphService.getBarGraphData();
+  async getGraphData() {
+    this.GraphData = await this.graphService.getGraphData();
   }
 
-  async getLineGraphData() {
-    this.lineGraphData = await this.graphService.getLineGraphData();
-  }
 
 }
