@@ -9,19 +9,18 @@ import { GraphDataService } from '../services/graph-data/graph-data.service';
 })
 export class HomePage implements OnInit {
 
-  GraphData = {} as GraphData;
+  graphData: GraphData; 
 
   constructor(
     private graphService: GraphDataService
   ) {}
 
-  ngOnInit() {
-    this.getGraphData();
-    console.log(this);
+  async ngOnInit() {   
+      this.graphData = await this.getGraphData();
   }
 
   async getGraphData() {
-    this.GraphData = await this.graphService.getGraphData();
+    return await this.graphService.getGraphData();
   }
 
 
