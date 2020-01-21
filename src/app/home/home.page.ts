@@ -9,7 +9,7 @@ import { GraphDataService } from '../services/graph-data/graph-data.service';
 })
 export class HomePage implements OnInit {
 
-  graphData: GraphData; 
+  graphData: GraphData[]; 
 
   constructor(
     private graphService: GraphDataService

@@ -9,7 +9,7 @@ export class GraphDataService {
   constructor() { }
 
   async getGraphData() {
-    const data: GraphData = {
+    const data: GraphData[] = [{
       type: 'bar', 
       data: [1, 2, 3, 4, 6, 2, 4, 1, 8, 6, 7, 8],
       xaxis: ['jan', 'feb', 'mar', 'apr', 'may', 'june', 'july', 'aug', 'sep', 'oct', 'nov', 'dec'],
@@ -59,7 +59,7 @@ export class GraphDataService {
         'rgba(255, 159, 64, 1)'
       ],
       borderWidth: 1,
-    }
+    }]
     return data;
   }
 

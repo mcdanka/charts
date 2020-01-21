@@ -1,6 +1,8 @@
-<div >
-    <canvas id="chart"></canvas>
+<div *ngFor="let chart of charts; let i = index">
+    <canvas id="canvas{{i}}" #myCharts>{{chart[i]}}</canvas>
 </div>
+
+<ion-button (click)="test()">Click Me</ion-button>
 
 <!--*ngFor="let graph of graphData"
 
