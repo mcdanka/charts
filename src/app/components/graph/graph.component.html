@@ -1,9 +1,12 @@
-<div *ngFor="let chart of charts; let i = index">
-    <canvas id="canvas{{i}}" #myCharts>{{chart[i]}}</canvas>
+<div>
+    <!--canvas for the different charts
+        Still needs to generate this dynamiclly-->
+    <canvas id="chart0"></canvas>
+    <br><br><br><br><br><br><br> <!--Creates space between charts-->
+    <canvas id="chart1"></canvas>
+    <br><br><br><br><br><br><br>
+    <canvas id="chart2"></canvas> 
+    <br><br><br><br><br><br><br>
+    <canvas id="chart3"></canvas> 
 </div>
 
-<ion-button (click)="test()">Click Me</ion-button>
-
-<!--*ngFor="let graph of graphData"
-
-<canvas *ngFor="let chart of myChart; let i = index" class="chart">{{myChart}}</canvas>-->

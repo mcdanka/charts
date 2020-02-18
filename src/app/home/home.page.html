@@ -7,14 +7,9 @@
 </ion-header>
 
 <ion-content>
-  <app-graph  *ngIf= graphData  [graphData]= "graphData"></app-graph>
 
-<!-- 
-  
+  <div *ngFor="let chart of graphData">
+    <app-graph [graphData]="chart"></app-graph>
+  </div>
 
-  Tried copying the object as the issue seems to be that after the first 
-app-graph statement, the data isn't being relayed to the other statements. 
-They do not get any properties/data...Come back and see how to implement this
-
--->
 </ion-content>

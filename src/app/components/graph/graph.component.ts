@@ -1,9 +1,9 @@
-import { Component, Input, ViewChildren, AfterViewInit} from '@angular/core';
+import { GraphData } from 'src/app/components/graph/graph.component';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
-//import { GraphDataService } from 'src/app/services/graph-data/graph-data.service';
 
 export interface GraphData {
-  data: number[];
+  data: Number[];
   xaxis: string[];
   yaxis: string;
   graphLabel: string;
@@ -12,72 +12,72 @@ export interface GraphData {
   borderWidth: number;
   lineWidth: number;
   lineColor: string[];
-  type: 'bar' | 'line' | 'pie';
+  type: 'bar' | 'line' | 'pie'| 'doughnut';
 }
+
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss'],
 })
-export class GraphComponent implements AfterViewInit {
 
-  @ViewChildren('myCharts') allCharts: any;
 
-  element: any;
-  //NumberofSystems: Number; //added this line
-  ctx;
-  //myChart; //added =[]
 
-  @Input() graphData: GraphData[];
-  charts = []; 
-  //@Input() graphDataService: GraphDataService;
+export class GraphComponent implements OnChanges {
 
-  constructor() {
-    
+
+  @Input() graphData: GraphData;
+
+
+
+  constructor() { }
+
+
+
+
+
+  ngOnChanges() {
+
+
+    //Due to the fact that graphData alreday comes as an array, we would just need to access its individual
+    //data and give each its individual canvas
+    var ctx = [];
+    var numEle = [];
+    if (this.graphData) {
+
+      for (var i = 0; i < 4; i++) {
+        numEle[i] = document.getElementById("chart" + i); //grabs the different canvases from the html page
+        ctx[i] = numEle[i].getContext('2d'); //gives each its own html canvas
+
+        //if statements only sends the graph with a particular type to createChart function
+        if (this.graphData.type == 'bar' && i==0) {
+          this.createChart(ctx[i], this.graphData);
+        }
+        else if (this.graphData.type == 'line' && i == 1) {
+          this.createChart(ctx[i], this.graphData);
+        }
+        else if (this.graphData.type == 'pie' && i == 2)  {
+          this.createChart(ctx[i], this.graphData);
+        }
+        else if (this.graphData.type == 'doughnut' && i == 3)  {
+          this.createChart(ctx[i], this.graphData);
+        }
+      }
+    }
+
+
+
+
+
+
+
   }
 
-  ngAfterViewInit() {
 
-    // //this.charts = this.allCharts.map( (element: any, index: number) => {
-    //   //console.log(this.element, index);
-    //   //console.log(this.graphData[index]);
-    //   this.charts.push(this.createChart(this.graphData[index], this.element));
-    //   console.log(this.charts);
-    // });
+  createChart(element, graph) {
 
-    this.charts = this.allCharts.map( (element, index) => {
-    this.charts.push(this.createChart(this.graphData[index], this.element));
-      
-    });
-    console.log(this.charts);
-  }
-
-  
-
-
-  // ngOnChanges() {
-  //   if (this.graphData) { //if there is graph data and graph data has a type
-  //     this.element = document.getElementById('chart');
-  //     this.ctx = this.element.getContext('2d');
-  //     this.createChart();
-    
-
-
-  //   //added snippet below
-  // /* this.graphDataService.getGraphData().catch(data => {
-  //    this.element = data 
-  //    this.NumberofSystems = this.element.data[0][1].systems.length
-  //   */ 
-     
-  //  };
-    
-  // }
-
-  createChart(graph: GraphData, element) {
-    //var array=[]; //added
-   // for (var i=0; i<this.NumberofSystems; i++){//added 
-    return new Chart(this.element.getContext('2d'), {
+    var chart = [new Chart(element, {
       type: graph.type, //change this to toggle between graphs
       data: {
         labels: graph.xaxis,
@@ -90,31 +90,33 @@ export class GraphComponent implements AfterViewInit {
         }]
       },
       options: {
+       
         scales: {
           yAxes: [{
             ticks: {
               beginAtZero: true
             }
           }]
+        },
+
+        title: { //added the chart title and formatting
+          display: true,
+          fontSize: 20,
+          fontFamily: "Cursive",
+          text: graph.type.toUpperCase(graph.type) + " TEST DATA",
+          fontColor: "#FF0000"
+          
+
         }
       }
-    });
-  
-  //  array.push(this.myChart);//added this line
- // }//added
- // this.createChartnow(array); //added
-  
+    })];
+
+
+    return chart;
+
+
+
   }
-  //added the function below
-  /*createChartnow(chartData){//added
-    for(var j = 0; j<this.NumberofSystems;j++)
-  {
-  let htmlRef = this.element.nativeElement.select('.class');
-  console.log(htmlRef);
-  var tempChart = new Chart(htmlRef,chartData[j]);
-  this.myChart.push(tempChart);
-  }   
-  }//added
-*/
+
 
 }
