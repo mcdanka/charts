@@ -1,6 +1,7 @@
 import { GraphData } from 'src/app/components/graph/graph.component';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { GraphDataService } from 'src/app/services/graph-data/graph-data.service';
 
 export interface GraphData {
   data: Number[];
@@ -12,7 +13,7 @@ export interface GraphData {
   borderWidth: number;
   lineWidth: number;
   lineColor: string[];
-  type: 'bar' | 'line' | 'pie'| 'doughnut';
+  type: 'bar' | 'line' | 'pie' | 'doughnut';
 }
 
 
@@ -24,60 +25,40 @@ export interface GraphData {
 
 
 
-export class GraphComponent implements OnChanges {
+export class GraphComponent implements AfterViewInit {
 
 
-  @Input() graphData: GraphData;
-
-
-
-  constructor() { }
+  graphData: GraphData[];
 
 
 
+  constructor(
+    private graphService: GraphDataService
+  ) {
+    this.graphData = this.graphService.getGraphData();
+  }
 
 
-  ngOnChanges() {
-
-
-    //Due to the fact that graphData alreday comes as an array, we would just need to access its individual
-    //data and give each its individual canvas
-    var ctx = [];
-    var numEle = [];
+  ngAfterViewInit() {
+    console.log(this.graphData);
     if (this.graphData) {
-
-      for (var i = 0; i < 4; i++) {
-        numEle[i] = document.getElementById("chart" + i); //grabs the different canvases from the html page
-        ctx[i] = numEle[i].getContext('2d'); //gives each its own html canvas
-
-        //if statements only sends the graph with a particular type to createChart function
-        if (this.graphData.type == 'bar' && i==0) {
-          this.createChart(ctx[i], this.graphData);
-        }
-        else if (this.graphData.type == 'line' && i == 1) {
-          this.createChart(ctx[i], this.graphData);
-        }
-        else if (this.graphData.type == 'pie' && i == 2)  {
-          this.createChart(ctx[i], this.graphData);
-        }
-        else if (this.graphData.type == 'doughnut' && i == 3)  {
-          this.createChart(ctx[i], this.graphData);
-        }
+      
+      for (let index = 0; index < this.graphData.length; index++) {
+        const graph = this.graphData[index];
+        const canvas = document.getElementById(`graph${index}`) as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d');
+        this.createChart(ctx, graph);
       }
+
+
     }
-
-
-
-
-
-
-
   }
 
 
   createChart(element, graph) {
 
     var chart = [new Chart(element, {
+      responsive: true,
       type: graph.type, //change this to toggle between graphs
       data: {
         labels: graph.xaxis,
@@ -90,7 +71,7 @@ export class GraphComponent implements OnChanges {
         }]
       },
       options: {
-       
+
         scales: {
           yAxes: [{
             ticks: {
@@ -105,7 +86,7 @@ export class GraphComponent implements OnChanges {
           fontFamily: "Cursive",
           text: graph.type.toUpperCase(graph.type) + " TEST DATA",
           fontColor: "#FF0000"
-          
+
 
         }
       }

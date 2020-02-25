@@ -1,12 +1,5 @@
-<div>
-    <!--canvas for the different charts
-        Still needs to generate this dynamiclly-->
-    <canvas id="chart0"></canvas>
-    <br><br><br><br><br><br><br> <!--Creates space between charts-->
-    <canvas id="chart1"></canvas>
-    <br><br><br><br><br><br><br>
-    <canvas id="chart2"></canvas> 
-    <br><br><br><br><br><br><br>
-    <canvas id="chart3"></canvas> 
-</div>
+<div class="custom-margin" *ngFor="let graph of graphData; let i = index">
 
+    <canvas [id]="'graph' + i"></canvas>
+
+</div>
