@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphData, GraphComponent } from 'src/app/components/graph/graph.component';
+import { GraphData } from 'src/app/components/graph/graph.component';
 import { FormsModule, NgModel } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Chart } from 'chart.js';
@@ -18,6 +18,7 @@ export interface OutcomesData {
   createdAt: string;
   patientId: string;
   caseId: string;
+  visit?: 'first-visit' | 'follow-up-visit' | 'last-visit';
 }
 
 export interface OutcomesGraph {
@@ -42,16 +43,13 @@ export class GraphDataService {
   patientId: string;
   caseId: string;
   graphData: GraphData[];
-  outcomesData: OutcomesData[];
   outGraph: OutcomesGraph[];
 
   constructor(
     private moment: MomentService
   ) { }
 
-
-
-  getoutcomesData(): OutcomesData[] {
+  getOutcomesData(): OutcomesData[] {
     
     const dataArray = [
       {
@@ -146,31 +144,31 @@ export class GraphDataService {
 
 
 
-  filterOutcomesData(patientId, caseId) {
-    this.outcomesData = this.getoutcomesData();
-    var filter = [];
+  filterOutcomesDataByPatientIdAndCaseId(patientId: string, caseId: string) {
+    const allOutcomesData = this.getOutcomesData();
+    return allOutcomesData.filter(record => record.patientId === patientId && record.caseId === caseId);
     // if (caseId){
     //   filter = this.outcomesData.filter(function(out) { patientId === out.patientId && caseId === out.caseId});
     // }
     // else { 
     //  filter = this.outcomesData.filter(function(out) { patientId === out.patientId});
     //   }
-      if (caseId){
-      for (var i=0; i<this.outcomesData.length; i++){
-       if (patientId == this.outcomesData[i].patientId && caseId == this.outcomesData[i].caseId){
-          filter.push(this.outcomesData[i]);
-       }
-      }
-    }
-      else {
-        for (var i=0; i<this.outcomesData.length; i++){
-         if (patientId == this.outcomesData[i].patientId){
-            filter.push(this.outcomesData[i]);
-         }
-        }
-    }
-      console.log(filter);
-      return filter;
+    //   if (caseId){
+    //   for (var i=0; i<this.outcomesData.length; i++){
+    //    if (patientId == this.outcomesData[i].patientId && caseId == this.outcomesData[i].caseId){
+    //       filter.push(this.outcomesData[i]);
+    //    }
+    //   }
+    // }
+    //   else {
+    //     for (var i=0; i<this.outcomesData.length; i++){
+    //      if (patientId == this.outcomesData[i].patientId){
+    //         filter.push(this.outcomesData[i]);
+    //      }
+    //     }
+    // }
+    //   console.log(filter);
+    //   return filter;
   }
 
   printOut(data: OutcomesData[]){
