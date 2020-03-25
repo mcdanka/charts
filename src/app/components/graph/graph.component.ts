@@ -1,30 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, Input, OnChanges } from '@angular/core';
 import { GraphDataService } from 'src/app/services/graph-data/graph-data.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
-export interface GraphData {
-  data: Number[];
-  xaxis: string[];
-  yaxis: string;
-  graphLabel: string;
-  backgroundColor: string[];
-  borderColor: string[];
-  borderWidth: number;
-  lineWidth: number;
-  lineColor: string[];
-  type: 'bar' | 'line' | 'pie' | 'doughnut';
-}
-
-export interface OutcomesGraph {
-  type: 'line';
-  data: Number[];
-  xaxis: Date[];
-  yaxis: string;
-  graphLabel: string;
-  lineColor: string[];
-  lineWidth: number;
-}
 
 export interface OutcomesData {
   pain: number;
@@ -35,6 +10,10 @@ export interface OutcomesData {
   caseId: string;
 }
 
+export interface GraphData {
+  
+}
+
 
 @Component({
   selector: 'app-graph',
@@ -42,120 +21,40 @@ export interface OutcomesData {
   styleUrls: ['./graph.component.scss'],
 })
 
+export class GraphComponent implements OnChanges {
 
+  @Input() patientId: string;
+  @Input() caseId: string;
 
-export class GraphComponent implements AfterViewInit {
+  multi: any[];
+  view: any[] = [700, 300];
 
-  patientId: string;
-  caseId: string;
-  graphData: GraphData[];
-  outcomesData: OutcomesData[];
-  filteredOutcomesData: OutcomesData[];
-  outGraph: OutcomesGraph[];
+  // options
+  legend: boolean = true;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Year';
+  yAxisLabel: string = 'Population';
+  timeline: boolean = true;
+
+  colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+  };
+
 
 
   constructor(
     private graphService: GraphDataService
-  ) {
-    this.graphData = this.graphService.getGraphData();
-    this.outcomesData = this.graphService.getoutcomesData();
-    this.outGraph = [];
-  }
+  ) { }
 
-  ngAfterViewInit() {
-
-  
-   
-    //FOR OUTCOMES DATA
-   // this.graphService.printOut(this.filteredOutcomesData);
-  }
-
-
-  populateGraphs() {
-    console.log(this.patientId, this.caseId);
-    this.filteredOutcomesData = this.graphService.filterOutcomesData(this.patientId, this.caseId);
-    console.log(this.filteredOutcomesData);
-
-    this.graphService.printOut(this.filteredOutcomesData);
-  }
-
-  showGraphData(){
-
-//     if (!document.getElementById("newGraphs")){
-      
-// // document.getElementById("newGraphs").innerHTML="<div class='custom-margin' *ngFor='let graph of graphData; let i = index>" +
-// // "<canvas [id]=" + "'graph' + i" + "> </canvas></div>";
-//     }
-
-    if (this.graphData) {
-
-      
-      for (let index = 0; index < this.graphData.length; index++) {
-        const graph = this.graphData[index];
-        const canvas = document.getElementById(`graph${index}`) as HTMLCanvasElement;
-        const ctx = canvas.getContext('2d');
-        this.graphService.createChart(ctx, graph);
-      }
-
-    }
-  }
-  removeGraphData(){
-    if (this.graphData) {
-
-      const canvas = [];
-      for (let index = 0; index < this.graphData.length; index++) {
-         canvas.push(document.getElementById(`graph${index}`) as HTMLCanvasElement);
-      }
-      for (let index = 0; index < canvas.length; index++) {
-       canvas[index].remove();
-       }
- 
-
-
+  ngOnChanges() {
+    if (this.patientId && this.caseId) {
+      this.multi = this.graphService.getGraphData();
     }
   }
 
-  // createChart(element, graph) {
-
-  //   var chart = [new Chart(element, {
-  //     responsive: true,
-  //     type: graph.type, //change this to toggle between graphs
-  //     data: {
-  //       labels: graph.xaxis,
-  //       datasets: [{
-  //         label: graph.graphLabel,
-  //         data: graph.data,
-  //         backgroundColor: graph.backgroundColor,
-  //         borderColor: graph.borderColor,
-  //         borderWidth: graph.borderWidth
-  //       }]
-  //     },
-  //     options: {
-
-  //       scales: {
-  //         yAxes: [{
-  //           ticks: {
-  //             beginAtZero: true
-  //           }
-  //         }]
-  //       },
-
-  //       title: { //added the chart title and formatting
-  //         display: true,
-  //         fontSize: 20,
-  //         fontFamily: "Cursive",
-  //         text: graph.type.toUpperCase(graph.type) + " TEST DATA",
-  //         fontColor: "#FF0000"
-
-
-  //       }
-  //     }
-  //   })];
-
-
-  //   return chart;
-
-
-
-  // }
 }

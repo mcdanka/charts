@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { GraphData } from '../components/graph/graph.component';
-import { GraphDataService, OutcomesData } from '../services/graph-data/graph-data.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -9,32 +7,12 @@ import { GraphDataService, OutcomesData } from '../services/graph-data/graph-dat
 })
 
 
-export class HomePage implements OnInit {
+export class HomePage {
 
-  graphData: GraphData[];
-  outcomesData: OutcomesData[];
-  //outGraph: OutcomesGraph[];
+  patientId = 'CAR123';
+  caseId = 'CAR001';
 
   constructor(
-    private graphService: GraphDataService
   ) { }
 
-  async ngOnInit() {
-    this.graphData = await this.getGraphData();
-    this.outcomesData = await this.getOutcomesData();
-  // this.outGraph = await this.getOutcomesGraph();
-
-  }
-
-  async getGraphData() {
-    return await this.graphService.getGraphData();
-  }
-
-  async getOutcomesData() {
-    return await this.graphService.getoutcomesData();
-  }
-
-  // async getOutcomesGraph() {
-  //    return await this.graphService.getOutcomesGraph();
-  //  }
 }

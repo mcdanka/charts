@@ -1,56 +1,14 @@
-<!-- <div>
-    <label>PatientID:
-      <input type="text" name="patient" id="patient"><br>
-    </label>
-    <label>CaseID:
-      <input type="text" name="patient" id="case"><br>
-    </label>
-    <button id="submit" >Submit</button>
-
-    <script>
-        var btn = document.getElementById("submit");
-    
-        btn.addEventListener('onclick', () => {
-          let patientId = document.getElementById("patient");
-          let caseId = document.getElementById("case");
-          FilteredData(caseId.nodeValue, patientId.nodeValue);
-        });
-      </script>
-
-  </div-->
-  
-
-
-<div>
-<ion-item>
-  <ion-label position="stacked">Patient ID</ion-label>
-  <ion-input [(ngModel)]="patientId" type="text"></ion-input>
-</ion-item>
-<ion-item>
-  <ion-label position="stacked">Case ID</ion-label>
-  <ion-input [(ngModel)]="caseId" type="text"></ion-input>
-</ion-item>
-
-<ion-button *ngIf="patientId" (click)="populateGraphs()">SUBMIT</ion-button>
-</div>
-
-<div>
-<ion-item>
-  <ion-button (click)="showGraphData()">Show Graphs</ion-button>
-</ion-item>
-<ion-item>
-  <ion-button (click)="removeGraphData()">Remove Graphs</ion-button>
-</ion-item>
-
-</div>
-<div [id] = "newGraphs"></div>
-<div class="custom-margin" *ngFor="let graph of graphData; let i = index">
-
-  <canvas [id]="'graph' + i"></canvas>
-
-</div>
-<div class="custom-margin" *ngFor="let graph of outcomesData; let i = index">
-
-  <canvas [id]="'chart' + i"></canvas>
-
-</div>
+<ngx-charts-line-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [legend]="legend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]="xAxis"
+  [yAxis]="yAxis"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [timeline]="timeline"
+  [results]="multi"
+  >
+</ngx-charts-line-chart>
