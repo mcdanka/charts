@@ -34,6 +34,7 @@ export class GraphDataService {
     let day = 0;
     let year = 0;
     for (var i = 0; i < 1000; i++) {
+      // TODO: Convert All Numbers to Whole Numbers
       const outcomesArray = {} as OutcomesData;
       outcomesArray.pain = Math.random() * 10;
       outcomesArray.function = Math.random() * 100;
@@ -61,6 +62,9 @@ export class GraphDataService {
     }
     console.log(outData["1:10"]);
     //sorting by dates coded as strings
+
+    // TODO: After sorting by createdAt, group records by patientID and caseID this all should probably happen in a separate function - each function should
+    // only have one primary purpose
     outData.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1);
     outData.sort((a, b) => (a.patientId > b.patientId) ? 1 : -1);
     outData.sort((a, b) => (a.caseId > b.caseId) ? 1 : -1);
@@ -92,7 +96,7 @@ export class GraphDataService {
     //   }
     // }
 
-
+    // TODO: Add comments for each major step - I got confused here
     console.log(distinctPatientId);
     distinctPatientId.forEach(pId => {
       let count = 0;
@@ -142,6 +146,7 @@ export class GraphDataService {
 
 
   getGraphData() {
+    // TODO: The graph should be a bar graph with three bars - change in pain, function, improvement. Date is not needed.
     const data = this.calculateChange();
     const distinctPatientId = [...new Set(data.map(x => x.patientId))];
     const graphs = [];
