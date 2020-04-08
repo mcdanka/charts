@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
 
 export class HomePage {
 
-  patientId = 'CAR123';
-  caseId = 'CAR001';
+  // patientId = 'CAR123';
+  // caseId = 'CAR001';
 
   constructor(
   ) { }
