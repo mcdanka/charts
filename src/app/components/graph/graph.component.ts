@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { GraphDataService } from 'src/app/services/graph-data/graph-data.service';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 export interface OutcomesData {
@@ -12,7 +13,8 @@ export interface OutcomesData {
 }
 
 export interface GraphData {
-  
+  name: string;
+  series: any[];
 }
 
 
@@ -30,8 +32,8 @@ export class GraphComponent implements OnChanges{
   @Input() patientId: string;
   @Input() caseId: string;
 
-  single: any[];
-  multi: any;
+  single: any;
+  multi: any[];
   view: any[] = [700, 300];
 
   // options
@@ -40,25 +42,40 @@ export class GraphComponent implements OnChanges{
   animations: boolean = true;
   xAxis: boolean = true;
   yAxis: boolean = true;
+  showLegend: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Patient Information';
   yAxisLabel: string = 'Change';
+  legendTitle: string = 'Type';
+  gradient: boolean = true;
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
  // timeline: boolean = true;
 
   colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
 
 
-  constructor(
-    private graphService: GraphDataService
-  ) {
-   // Object.assign(this, { GraphDataService })
-   }
+  constructor(  private graphService: GraphDataService) 
+  {  }
 
   ngOnChanges() {
+    const pIds = this.graphService.getdistinctPatientIDs();
+    this.multi = [];
+
+    //Creating the different charts for each unique id
+    pIds.forEach(id => {
+      console.log(id);
+      const temp = {} as GraphData;
+      temp.name = id;
+      temp.series = this.graphService.getGraphData(id);
+      this.multi.push(temp);
+    });
+
+  
     //if (this.patientId && this.caseId) {
       //this.multi = this.graphService.getGraphData();
       // this.multi.forEach(record => {
@@ -66,7 +83,10 @@ export class GraphComponent implements OnChanges{
         
       // });
   //  }
+
+
   }
+
 
   
 

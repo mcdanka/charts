@@ -1,8 +1,16 @@
-<ngx-charts-bar-vertical
+<ngx-charts-bar-vertical-2d
   [view]="view"
   [scheme]="colorScheme"
   [results]="multi"
-  gradient="true"
-  xAxis="true"
- yAxis="true">
-</ngx-charts-bar-vertical>
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+ [xAxis]="showXAxis"
+ [yAxis]="showYAxis"
+ [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel">
+</ngx-charts-bar-vertical-2d>
+
+<!-- [xAxis]="true"
+[yAxis]="true" -->
+
